@@ -29,6 +29,7 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final WeatherClient weatherClient;
 
+    // 저장 메서드에 명시적으로 @Transactional을 선언 이로 인해 데이터 변경(Insert)이 가능해집니다.
     @Transactional
     public TodoSaveResponse saveTodo(AuthUser authUser, TodoSaveRequest todoSaveRequest) {
         User user = User.fromAuthUser(authUser);
@@ -55,6 +56,7 @@ public class TodoService {
     public Page<TodoResponse> getTodos(int page, int size, String weather, LocalDateTime start, LocalDateTime end) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
+        // 컨트롤러에서 넘어온 필터링 조건들과 인덱싱 파라미터를 레포지토리의 JPQL 메서드로 전달하여 조건에 맞는 영속성 엔티티 페이징 데이터를 조회합니다.
         Page<Todo> todos = todoRepository.findAllByParams(weather, start, end, pageable);
 
         return todos.map(todo -> new TodoResponse(
@@ -85,6 +87,7 @@ public class TodoService {
         );
     }
 
+    // 컨트롤러에서 진입한 검색 요청을 실제 데이터베이스 구현체가 정의된 QueryDSL 기반 Repository로 위임 처리하는 메서드입니다.
     public Page<TodoSearchResponse> searchTodos(TodoSearchRequest request, Pageable pageable) {
         return todoRepository.searchTodos(request, pageable);
     }

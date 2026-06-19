@@ -30,6 +30,7 @@ public class Todo extends Timestamped {
     @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 
+    // 할 일이 저장될 때, 해당 일정을 담당할 Manager(담당자) 리스트 정보도 함께 데이터베이스에 자동으로 반영(CascadeType.PERSIST)되도록 구성합니다.
     @OneToMany(mappedBy = "todo", cascade = CascadeType.PERSIST)
     private List<Manager> managers = new ArrayList<>();
 

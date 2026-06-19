@@ -13,6 +13,7 @@ public class LogService {
 
     private final LogRepository logRepository;
 
+    // Propagation.REQUIRES_NEW를 선언하여 호출부(ManagerService)의 기존 트랜잭션과 무관하게 독립적인 트랜잭션을 실행합니다.
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveLog(String message) {
         Log log = new Log(message);

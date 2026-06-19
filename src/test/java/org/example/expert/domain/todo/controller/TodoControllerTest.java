@@ -69,6 +69,7 @@ class TodoControllerTest {
 
         // then
         mockMvc.perform(get("/todos/{todoId}", todoId))
+                // InvalidRequestException 발생 시 400 에러를 내리므로, 기존의 잘못된 검증 코드(.isOk())를 .isBadRequest()로 정정하여 실패하던 테스트를 해결합니다.
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.name()))
                 .andExpect(jsonPath("$.code").value(HttpStatus.BAD_REQUEST.value()))

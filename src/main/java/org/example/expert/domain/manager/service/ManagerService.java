@@ -34,6 +34,7 @@ public class ManagerService {
     @Transactional
     public ManagerSaveResponse saveManager(AuthUser authUser, long todoId, ManagerSaveRequest managerSaveRequest) {
 
+        // 매니저 등록을 시작하기 직전, 요청을 보낸 유저 ID, 대상 일정 ID, 대상 유저 ID를 문자열 포맷으로 별도의 독립 로그 트랜잭션으로 기록합니다.
         logService.saveLog(String.format("매니저 등록 시도 - 요청자ID: %d, 할일ID: %d, 대상유저ID: %d",
                 authUser.getId(), todoId, managerSaveRequest.getManagerUserId()));
         // 일정을 만든 유저

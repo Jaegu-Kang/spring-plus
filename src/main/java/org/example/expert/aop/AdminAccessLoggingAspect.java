@@ -19,6 +19,8 @@ public class AdminAccessLoggingAspect {
 
     private final HttpServletRequest request;
 
+    // 기존에 잘못 설정되어 있던 타겟 경로(UserController.getUser)를 실제 요구사항인 관리자 권한 변경 API(UserAdminController.changeUserRole)로 올바르게 수정합니다.
+    // 메서드 실행 후에 찍히던 @After 어드바이스를 실행 직전에 기록하라는 요건에 맞춰 @Before 시점으로 변경합니다.
     @Before("execution(* org.example.expert.domain.user.controller.UserAdminController.changeUserRole(..))")
     public void logBeforeChangeUserRole(JoinPoint joinPoint) {
         String userId = String.valueOf(request.getAttribute("userId"));
